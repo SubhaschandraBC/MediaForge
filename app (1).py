@@ -3,7 +3,6 @@ import streamlit as st
 import os
 import subprocess
 import tempfile
-import cv2
 
 st.set_page_config(page_title="MediaForge AI", page_icon="🎬", layout="wide")
 st.title("🎬 MediaForge AI - All-in-One AI Media Studio")
@@ -14,6 +13,7 @@ def run_ffmpeg(cmd):
     return result.returncode == 0
 
 def get_video_info(path):
+    import cv2
     cap = cv2.VideoCapture(path)
     fps = cap.get(cv2.CAP_PROP_FPS)
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -155,6 +155,7 @@ if "7. Reels" in feature:
 if "8. Smart" in feature:
     target = st.slider("Target MB", 1, 50, 10)
     if st.button(f"Compress to {target}MB"):
+        import cv2
         cap = cv2.VideoCapture(INPUT)
         fps = cap.get(cv2.CAP_PROP_FPS); frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)); cap.release()
         dur = frames/fps if fps else 10
@@ -191,6 +192,7 @@ if "10. Denoise" in feature:
 # 11 FACE BLUR
 if "11. Face Blur" in feature:
     if st.button("Blur Faces"):
+        import cv2
         with st.spinner("Detecting faces..."):
             face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
             cap = cv2.VideoCapture(INPUT)
